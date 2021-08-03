@@ -113,15 +113,49 @@ class Reviewer(Mentor):
         return out
 
 
+#  Средняя оценка по прдеметам
+def average_grade(course, *args):
+    avr_grade = 0  # Средняя оценка студентов по курсу
+    count = 0  # число студенов по курсу
+    temp = 0
+
+    for i in args:
+        if i.grades.get(course):  # Если у текущего студента есть данный курс
+            sum_grade_current = sum(i.grades[course]) / len(i.grades[course])
+            count += 1
+            temp += sum_grade_current  # Средняя оценка теущего студента
+    if count != 0:  # Если есть студенты по данному курсу
+        avr_grade = temp / count
+    print(f'средняя оценка студентов по {course}: {avr_grade}')
+
+
+#  Средняя оценка по преподавателям
+def average_grade_lector(course, *args):
+    avr_grade = 0  # Средняя оценка лектора
+    count = 0  # число лекторов по курсу
+    temp = 0
+
+    for i in args:
+        if i.grades.get(course):  # Если у текущего лектора есть данный курс
+            sum_grade_current = sum(i.grades[course]) / len(i.grades[course])
+            count += 1
+            temp += sum_grade_current  # Средняя оценка теущего лектора
+    if count != 0:  # Если есть лекторы по данному курсу
+        avr_grade = temp / count
+    print(f'средняя оценка лекторов по {course}: {avr_grade}')
+
+
 #  Студенты
 pushkin = Student('Александр', 'Пушкин', 'm')
-lermontov = Student('Юрий', 'Лермонтов', 'm')
+lermontov = Student('Михаил', 'Лермонтов', 'm')
 gogol = Student('Николай', 'Гоголь', 'm')
+blok = Student('Александр', 'Блок', 'm')
 
 # Предметы изучаемые студентами
 pushkin.courses_in_progress += ['Python']
 lermontov.courses_in_progress += ['C#']
 gogol.courses_in_progress += ['Python']
+blok.courses_in_progress += ['Python']
 
 #  Завершенные курсы
 pushkin.finished_courses += ['Git']
@@ -149,6 +183,7 @@ morgunov.courses_attached += ['C#']
 tesla.rate_hw(pushkin, 'Python', 9)
 isaak.rate_hw(lermontov, 'C#', 8)
 tesla.rate_hw(pushkin, 'Python', 10)
+tesla.rate_hw(blok, 'Python', 7)
 
 #  Оцентка лекторов студентами
 pushkin.lecturer_grade(nikulin, 'Python', 10)
@@ -162,6 +197,8 @@ print('')
 print(lermontov)
 print('')
 print(gogol)
+print('----------')
+print(blok)
 print('----------')
 
 #  Сравнение студентов
@@ -194,3 +231,12 @@ print('')
 print(isaak)
 print('')
 print(bor)
+print('----------')
+
+
+average_grade('Python', pushkin, blok, lermontov)
+average_grade('C#', pushkin, blok, lermontov)
+print('----------')
+
+average_grade_lector('Python', nikulin, morgunov)
+average_grade_lector('C#', nikulin, morgunov)
